@@ -37,18 +37,28 @@ func (b *Buku) DaftarBuku() []Book {
 	return ListBuku
 }
 
-func (b *Buku) UpdateBuku(ID_Buku uint) bool {
-	Exc := b.DB.Where("ID = ?", ID_Buku).Updates(&Book{})
-	if err := Exc.Error; err != nil {
+func (b *Buku) UpdateBuku() Book {
+	var Update Book
+	err := b.DB.Model(&Update).Select("*").Updates(Book{})
+	if err != nil {
 		log.Print(err)
-		return false
+		return Book{}
 	}
-	if aff := Exc.RowsAffected; aff < 1 {
-		log.Println("Tidak ada data yang berubah")
-		return false
-	}
-	return true
+	return Update
 }
+
+// func (b *Buku) UpdateBuku(ID_Buku uint) bool {
+// 	Exc := b.DB.Where("ID = ?", ID_Buku).Updates(&Book{})
+// 	if err := Exc.Error; err != nil {
+// 		log.Print(err)
+// 		return false
+// 	}
+// 	// if aff := Exc.RowsAffected; aff < 1 {
+// 	// 	log.Println("Tidak ada data yang berubah")
+// 	// 	return false
+// 	// }
+// 	return true
+// }
 
 func (b *Buku) HapusBuku(ID_Buku uint) bool {
 	postExc := b.DB.Where("ID = ?", ID_Buku).Delete(&Book{})

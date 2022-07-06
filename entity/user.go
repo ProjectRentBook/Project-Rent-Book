@@ -30,21 +30,22 @@ func (su *SignUp) RegisterUser(UserBaru User) User {
 func (su *SignUp) LoginUser() []User {
 	var ListUser = []User{}
 
-	if err := su.DB.Where("Nama = ? AND Password = ?").Find(&ListUser).Error; err != nil {
+	if err := su.DB.Where("Nama = ?", "Password = ?").Find(&ListUser).Error; err != nil {
 		log.Print(err)
 		return nil
 	}
 	return ListUser
 }
 
-// func (su *SignUp) UpdateUser() User {
-// 	var Update User
-// 	if err := su.DB.Model(&Update).Select("*").Updates(User{}).Error; err != nil {
-// 		log.Fatal(err)
-// 		return nil
-// 	}
-// 	return Update
-// }
+func (su *SignUp) UpdateUser() User {
+	var Update User
+	err := su.DB.Model(&Update).Select("*").Updates(User{})
+	if err != nil {
+		log.Print(err)
+		return User{}
+	}
+	return Update
+}
 
 func (su *SignUp) DeleteUser(ID_User uint) bool {
 	//var HapusUser user

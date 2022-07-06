@@ -16,8 +16,8 @@ func InitDB() *gorm.DB {
 		return nil
 	}
 	db.AutoMigrate(&entity.User{})
-	//db.AutoMigrate(&entity.Book{})
-//AutoMigrate(&entity.PinjamBuku{})
+	db.AutoMigrate(&entity.Book{})
+	db.AutoMigrate(&entity.PinjamBuku{})
 	//db.Set(le_options", "ENGINE=InnoDB").AutoMigrate(&User{})
 
 	return db
