@@ -28,24 +28,24 @@ func (su *SignUp) RegisterUser(UserBaru User) User {
 	return UserBaru
 }
 
-func (su *SignUp) LoginUser() []User {
-	var ListUser = []User{}
+func (su *SignUp) LoginUser(Nama, Password string) []User {
+	var ListUser []User
 
-	if err := su.DB.Where("Nama = ?", "Password = ?").Find(&ListUser).Error; err != nil {
-		log.Print(err)
+	if err := su.DB.Where("Nama = ? AND Password = ?", Nama, Password).Find(&ListUser).Error; err != nil {
+		log.Fatal(err)
 		return nil
 	}
 	return ListUser
 }
 
-func (su *SignUp) UpdateUser() User {
-	var Update User
-	err := su.DB.Model(&Update).Select("*").Updates(User{})
+func (su *SignUp) UpdateUser(ID_User uint) User {
+	//var Update User
+	err := su.DB.Model(&User{}).Where("ID = ?", ID_User).Updates(User{})
 	if err != nil {
 		log.Print(err)
 		return User{}
 	}
-	return Update
+	return User{}
 }
 
 func (su *SignUp) DeleteUser(ID_User uint) bool {

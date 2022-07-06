@@ -19,7 +19,7 @@ type Buku struct {
 }
 
 func (b *Buku) TambahBuku(BukuBaru Book) Book {
-	err := b.DB.Create(BukuBaru).Error
+	err := b.DB.Create(&BukuBaru).Error
 	if err != nil {
 		log.Print(err)
 		return Book{}
@@ -37,9 +37,9 @@ func (b *Buku) DaftarBuku() []Book {
 	return ListBuku
 }
 
-func (b *Buku) UpdateBuku() Book {
+func (b *Buku) UpdateBuku(IDuser int, Judul, Genre, Penulis string) Book {
 	var Update Book
-	err := b.DB.Model(&Update).Select("*").Updates(Book{})
+	err := b.DB.Model(&Book{}).Where("IDuser =? OR Judul=? OR Genre=? OR Penulis=?", IDuser, Judul, Genre, Penulis).Updates(Book{})
 	if err != nil {
 		log.Print(err)
 		return Book{}
