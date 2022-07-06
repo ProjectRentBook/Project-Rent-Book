@@ -12,6 +12,7 @@ type User struct {
 	Email    string
 	Password string
 	Umur     int
+	//Books    []Book `gorm:"many2many:User_Books;"`
 }
 
 type SignUp struct {
