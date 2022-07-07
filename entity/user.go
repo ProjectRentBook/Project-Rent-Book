@@ -12,7 +12,6 @@ type User struct {
 	Email    string
 	Password string
 	Umur     int
-	//Books    []Book `gorm:"many2many:User_Books;"`
 }
 
 type SignUp struct {
@@ -39,7 +38,6 @@ func (su *SignUp) LoginUser(Nama, Password string) []User {
 }
 
 func (su *SignUp) UpdateUser(ID_User uint, newData User) User {
-	//var Update User
 	err := su.DB.Model(User{}).Where("ID = ?", ID_User).Updates(newData)
 	if err.Error != nil {
 		log.Print(err)
@@ -49,7 +47,6 @@ func (su *SignUp) UpdateUser(ID_User uint, newData User) User {
 }
 
 func (su *SignUp) DeleteUser(ID_User uint) bool {
-	//var HapusUser user
 	postExc := su.DB.Where("ID = ?", ID_User).Delete(&User{})
 	if err := postExc.Error; err != nil {
 		log.Print(err)

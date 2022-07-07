@@ -17,7 +17,8 @@ func main() {
 
 	var input int = 0
 	for input != 11 {
-		fmt.Println("--Menu--")
+		fmt.Println("\t WELCOME TO OUR LIBRARY")
+		fmt.Println("-- Menu --")
 		fmt.Println("1. Sign Up")
 		fmt.Println("2. Login")
 		fmt.Println("3. List Buku")

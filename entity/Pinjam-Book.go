@@ -28,14 +28,6 @@ func (p *Pinjam) PinjamanBuku(BorrowBook PinjamBuku) PinjamBuku {
 	return BorrowBook
 }
 
-// func (p *Pinjam) KembalikanBuku(ReturnBook PinjamBuku) PinjamBuku {
-// 	//var ReturnBook PinjamBuku
-// 	if err := p.DB.Delete(&ReturnBook).Error; err != nil {
-// 		log.Print(err)
-// 		return PinjamBuku{}
-// 	}
-// 	return ReturnBook
-//}
 func (p *Pinjam) KembalikanBuku(IDBuku uint) bool {
 	postExc := p.DB.Where("ID_book = ?", IDBuku).Delete(&PinjamBuku{})
 	if err := postExc.Error; err != nil {
