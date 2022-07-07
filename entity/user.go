@@ -12,7 +12,7 @@ type User struct {
 	Nama     string
 	Email    string
 	Password string
-	Umur     int
+	Umur     string
 }
 
 type SignUp struct {
@@ -28,9 +28,9 @@ func (su *SignUp) RegisterUser(UserBaru User) User {
 	return UserBaru
 }
 
-func (su *SignUp) LoginUser(Nama, Password string) User {
+func (su *SignUp) LoginUser(Email, Password string) User {
 	var ListUser = User{}
-	if err := su.DB.Where("Nama = ? AND Password = ?", Nama, Password).Find(&ListUser).Error; err != nil {
+	if err := su.DB.Where("email = ? AND Password = ?", Email, Password).Find(&ListUser).Error; err != nil {
 		log.Print(err)
 		fmt.Println("tidak bisa login")
 		return User{}
@@ -39,13 +39,29 @@ func (su *SignUp) LoginUser(Nama, Password string) User {
 	return ListUser
 }
 
-func (su *SignUp) UpdateUser(ID_User uint, newData User) User {
-	err := su.DB.Model(User{}).Where("ID = ?", ID_User).Updates(newData)
-	if err.Error != nil {
-		log.Print(err)
-		return User{}
+// func (su *SignUp)  gettAlluser(email string) User {
+// 	var Alluser = User{}
+// 	if err := su.DB.Where()
+// }
+
+// func (su *SignUp) UpdateUser(Email string, newData User) User {
+// 	// err := su.DB.Model(User{}).Where("email = ?", Email).Updates(newData)
+// 	// if err.Error != nil {
+// 	// 	log.Print(err)
+// 	// 	return User{}
+// 	// }
+// 	// return newData
+// 	}
+func (su *SignUp) UpdateUser(Email string, namaUpdate string, emailUpdate string, passwordUpdate string, umurUpdate string) bool {
+	updateExc := su.DB.Model(User{}).Where("email = ?", Email).Updates(User{Nama: namaUpdate, Email: emailUpdate, Password: passwordUpdate, Umur: umurUpdate})
+	if err := updateExc.Error; err != nil {
+		log.Fatal(err)
+		return false
 	}
-	return newData
+	if aff := updateExc.RowsAffected; aff < 1 {
+		return false
+	}
+	return true
 }
 
 func (su *SignUp) DeleteUser(ID_User uint) bool {
