@@ -32,20 +32,20 @@ func (su *SignUp) LoginUser(Nama, Password string) []User {
 	var ListUser []User
 
 	if err := su.DB.Where("Nama = ? AND Password = ?", Nama, Password).Find(&ListUser).Error; err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return nil
 	}
 	return ListUser
 }
 
-func (su *SignUp) UpdateUser(ID_User uint) User {
+func (su *SignUp) UpdateUser(ID_User uint, newData User) User {
 	//var Update User
-	err := su.DB.Model(&User{}).Where("ID = ?", ID_User).Updates(User{})
-	if err != nil {
+	err := su.DB.Model(User{}).Where("ID = ?", ID_User).Updates(newData)
+	if err.Error != nil {
 		log.Print(err)
 		return User{}
 	}
-	return User{}
+	return newData
 }
 
 func (su *SignUp) DeleteUser(ID_User uint) bool {

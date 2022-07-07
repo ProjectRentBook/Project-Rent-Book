@@ -19,8 +19,8 @@ type Pinjam struct {
 	DB *gorm.DB
 }
 
-func (p *Pinjam) PinjamanBuku() PinjamBuku {
-	var BorrowBook PinjamBuku
+func (p *Pinjam) PinjamanBuku(BorrowBook PinjamBuku) PinjamBuku {
+	//var BorrowBook PinjamBuku
 	if err := p.DB.Create(&BorrowBook).Error; err != nil {
 		log.Print(err)
 		return PinjamBuku{}
@@ -28,11 +28,23 @@ func (p *Pinjam) PinjamanBuku() PinjamBuku {
 	return BorrowBook
 }
 
-func (p *Pinjam) KembalikanBuku() PinjamBuku {
-	var ReturnBook PinjamBuku
-	if err := p.DB.Create(&ReturnBook).Error; err != nil {
+// func (p *Pinjam) KembalikanBuku(ReturnBook PinjamBuku) PinjamBuku {
+// 	//var ReturnBook PinjamBuku
+// 	if err := p.DB.Delete(&ReturnBook).Error; err != nil {
+// 		log.Print(err)
+// 		return PinjamBuku{}
+// 	}
+// 	return ReturnBook
+//}
+func (p *Pinjam) KembalikanBuku(IDBuku uint) bool {
+	postExc := p.DB.Where("ID_book = ?", IDBuku).Delete(&PinjamBuku{})
+	if err := postExc.Error; err != nil {
 		log.Print(err)
-		return PinjamBuku{}
+		return false
 	}
-	return ReturnBook
+	if aff := postExc.RowsAffected; aff < 1 {
+		log.Println("Tidak ada buku yang dikembalikan")
+		return false
+	}
+	return true
 }

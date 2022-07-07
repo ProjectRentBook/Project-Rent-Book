@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 
 	config "Project_Rent_Book/Config"
 	"Project_Rent_Book/entity"
@@ -12,6 +14,7 @@ func main() {
 	SignUp := entity.SignUp{conn}
 	Buku := entity.Buku{conn}
 	Pinjam := entity.Pinjam{conn}
+
 	var input int = 0
 	for input != 11 {
 		fmt.Println("--Menu--")
@@ -25,8 +28,9 @@ func main() {
 		switch input {
 		case 1:
 			var UserBaru entity.User
-			fmt.Print("Nama: ")
-			fmt.Scanln(&UserBaru.Nama)
+			fmt.Print("Nama\t: ")
+			in := bufio.NewReader(os.Stdin)
+			UserBaru.Nama, _ = in.ReadString('\n')
 			fmt.Print("Email: ")
 			fmt.Scanln(&UserBaru.Email)
 			fmt.Print("Password: ")
@@ -42,7 +46,7 @@ func main() {
 
 		case 2:
 			var ListUser entity.User
-			fmt.Print("Nama: ")
+			fmt.Print("Nama\t: ")
 			fmt.Scanln(&ListUser.Nama)
 			fmt.Print("Password: ")
 			fmt.Scanln(&ListUser.Password)
@@ -69,18 +73,19 @@ func main() {
 				switch input2 {
 				case 1:
 					var Update entity.User
-					fmt.Println("ID : ")
+					fmt.Println("ID: ")
 					fmt.Scanln(&Update.ID)
-					fmt.Print("Nama: ")
-					fmt.Scanln(&Update.Nama)
+					fmt.Print("Nama\t: ")
+					in := bufio.NewReader(os.Stdin)
+					Update.Nama, _ = in.ReadString('\n')
 					fmt.Print("Email: ")
 					fmt.Scanln(&Update.Email)
 					fmt.Print("Password: ")
 					fmt.Scanln(&Update.Password)
 					fmt.Print("Usia: ")
 					fmt.Scanln(&Update.Umur)
-					res := SignUp.UpdateUser(Update.ID)
-					if res.ID == 1 {
+					res2 := SignUp.UpdateUser(Update.ID, Update)
+					if res2.ID == 0 {
 						fmt.Println("Tidak ada yang diupdate")
 						break
 					}
@@ -96,12 +101,13 @@ func main() {
 					var BukuBaru entity.Book
 					fmt.Print("IDuser: ")
 					fmt.Scanln(&BukuBaru.IDuser)
-					fmt.Print("Judul: ")
-					fmt.Scanln(&BukuBaru.Judul)
-					fmt.Print("Genre: ")
-					fmt.Scanln(&BukuBaru.Genre)
-					fmt.Print("Penulis: ")
-					fmt.Scanln(&BukuBaru.Penulis)
+					fmt.Print("Judul\t: ")
+					in := bufio.NewReader(os.Stdin)
+					BukuBaru.Judul, _ = in.ReadString('\n')
+					fmt.Print("Genre\t: ")
+					BukuBaru.Genre, _ = in.ReadString('\n')
+					fmt.Print("Penulis\t: ")
+					BukuBaru.Penulis, _ = in.ReadString('\n')
 					res := Buku.TambahBuku(BukuBaru)
 					if res.ID == 0 {
 						fmt.Println("tidak bisa input Buku")
@@ -112,17 +118,18 @@ func main() {
 					var ID_Buku entity.Book
 					fmt.Print("IDuser: ")
 					fmt.Scanln(&ID_Buku.IDuser)
-					fmt.Print("Judul: ")
-					fmt.Scanln(&ID_Buku.Judul)
-					fmt.Print("Genre: ")
-					fmt.Scanln(&ID_Buku.Genre)
-					fmt.Print("Penulis: ")
-					fmt.Scanln(&ID_Buku.Penulis)
-					Buku.UpdateBuku(ID_Buku.IDuser, ID_Buku.Judul, ID_Buku.Genre, ID_Buku.Penulis)
-					// if res.ID == 0 {
-					// 	fmt.Println("Tidak ada buku yang di Update")
-					// 	break
-					// }
+					fmt.Print("Judul\t: ")
+					in := bufio.NewReader(os.Stdin)
+					ID_Buku.Judul, _ = in.ReadString('\n')
+					fmt.Print("Genre\t: ")
+					ID_Buku.Genre, _ = in.ReadString('\n')
+					fmt.Print("Penulis\t: ")
+					ID_Buku.Penulis, _ = in.ReadString('\n')
+					res2 := Buku.UpdateBuku(ID_Buku.IDuser, ID_Buku)
+					if res2.IDuser == 0 {
+						fmt.Println("Tidak ada buku yang diupdate")
+						break
+					}
 					fmt.Println("Berhasil Update Buku")
 				case 5:
 					var ID uint
@@ -137,28 +144,19 @@ func main() {
 					fmt.Scanln(&BorrowBook.IDuser)
 					fmt.Print("Tanggal Pinjam: ")
 					fmt.Scanln(&BorrowBook.TanggalPinjam)
-					v := Pinjam.PinjamanBuku()
+					v := Pinjam.PinjamanBuku(BorrowBook)
 					if v.ID < 1 {
 						fmt.Println("Gagal meminjam buku")
 						break
 					}
 					fmt.Println("Berhasil meminjam buku")
 				case 7:
-					var ReturnBook entity.PinjamBuku
-					fmt.Print("ID Buku: ")
-					fmt.Scanln(&ReturnBook.IDBook)
-					fmt.Print("ID User: ")
-					fmt.Scanln(&ReturnBook.IDuser)
-					fmt.Print("Tanggal Kembali: ")
-					fmt.Scanln(&ReturnBook.TanggalKembali)
-					v := Pinjam.KembalikanBuku()
-					if v.ID < 1 {
-						fmt.Println("Gagal mengembalikan Buku")
-						break
-					}
-					fmt.Println("Berhasil kembalikan Buku")
+					var IDBuku uint
+					fmt.Print("Masukkan ID Buku yang akan Dikembalikan: ")
+					fmt.Scanln(&IDBuku)
+					Pinjam.KembalikanBuku(IDBuku)
+					fmt.Println("Semoga Harimu Menyenangkan")
 				}
-				fmt.Println("Semoga Harimu Menyenangkan")
 			}
 		case 3:
 			fmt.Println("Daftar semua Buku")
@@ -169,5 +167,5 @@ func main() {
 			continue
 		}
 	}
-	fmt.Println("Thank you for using our program, see next time")
+	fmt.Println("Thank you for using our program, see you next time")
 }

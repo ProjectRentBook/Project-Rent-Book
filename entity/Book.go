@@ -37,14 +37,13 @@ func (b *Buku) DaftarBuku() []Book {
 	return ListBuku
 }
 
-func (b *Buku) UpdateBuku(IDuser int, Judul, Genre, Penulis string) Book {
-	var Update Book
-	err := b.DB.Model(&Book{}).Where("IDuser =? OR Judul=? OR Genre=? OR Penulis=?", IDuser, Judul, Genre, Penulis).Updates(Book{})
-	if err != nil {
+func (b *Buku) UpdateBuku(IDuser int, newBuku Book) Book {
+	err := b.DB.Model(Book{}).Where("IDuser =? ", IDuser).Updates(newBuku)
+	if err.Error != nil {
 		log.Print(err)
 		return Book{}
 	}
-	return Update
+	return newBuku
 }
 
 // func (b *Buku) UpdateBuku(ID_Buku uint) bool {
