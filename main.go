@@ -11,9 +11,9 @@ import (
 
 func main() {
 	conn := config.InitDB()
-	SignUp := entity.SignUp{conn}
-	Buku := entity.Buku{conn}
-	Pinjam := entity.Pinjam{conn}
+	SignUp := entity.SignUp{DB: conn}
+	Buku := entity.Buku{DB: conn}
+	Pinjam := entity.Pinjam{DB: conn}
 
 	var input int = 0
 	for input != 11 {
@@ -54,14 +54,20 @@ func main() {
 			var ListUser entity.User
 			fmt.Print("Nama\t: ")
 			fmt.Scanln(&ListUser.Nama)
+			fmt.Println(ListUser.Nama)
 			fmt.Print("Password: ")
 			fmt.Scanln(&ListUser.Password)
+			fmt.Println(ListUser.Password)
 			res := SignUp.LoginUser(ListUser.Nama, ListUser.Password)
-			if res[0].ID < 1 {
-				fmt.Println("Tidak bisa Login")
-				break
-			}
-			fmt.Println("Berhasil Login")
+			idUser := res.ID
+			fmt.Println(idUser)
+			fmt.Println(res.Nama)
+
+			// if res[0].ID < 1 {
+			// 	fmt.Println("Tidak bisa Login")
+			// 	break
+			// }
+			// fmt.Println("Berhasil Login")
 
 			var input2 int
 			for input2 != 8 {

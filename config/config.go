@@ -1,4 +1,4 @@
-package Config
+package config
 
 import (
 	"Project_Rent_Book/entity"

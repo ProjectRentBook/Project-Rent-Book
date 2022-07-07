@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"log"
 
 	"gorm.io/gorm"
@@ -27,13 +28,14 @@ func (su *SignUp) RegisterUser(UserBaru User) User {
 	return UserBaru
 }
 
-func (su *SignUp) LoginUser(Nama, Password string) []User {
-	var ListUser []User
-
+func (su *SignUp) LoginUser(Nama, Password string) User {
+	var ListUser = User{}
 	if err := su.DB.Where("Nama = ? AND Password = ?", Nama, Password).Find(&ListUser).Error; err != nil {
 		log.Print(err)
-		return nil
+		fmt.Println("tidak bisa login")
+		return User{}
 	}
+	fmt.Println("berhasil login")
 	return ListUser
 }
 
