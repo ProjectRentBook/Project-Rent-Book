@@ -120,10 +120,10 @@ func main() {
 					fmt.Scanln(&umurUpdate)
 					res2 := SignUp.UpdateUser(Email, namaUpdate, emailUpdate, passwordUpdate, umurUpdate)
 					if res2 {
-						fmt.Print("Tidak ada yang diupdate")
+						fmt.Print("berhasil update profil")
 						break
 					}
-					fmt.Println("Berhasil Update Profil")
+					fmt.Println("Gagal Update Profil")
 
 				case 2:
 					var ID uint
