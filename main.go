@@ -122,8 +122,8 @@ func main() {
 					fmt.Println("berhasil input Buku")
 				case 4:
 					var ID_Buku entity.Book
-					fmt.Print("IDuser: ")
-					fmt.Scanln(&ID_Buku.IDuser)
+					fmt.Print("ID: ")
+					fmt.Scanln(&ID_Buku.ID)
 					fmt.Print("Judul\t: ")
 					in := bufio.NewReader(os.Stdin)
 					ID_Buku.Judul, _ = in.ReadString('\n')
@@ -131,8 +131,8 @@ func main() {
 					ID_Buku.Genre, _ = in.ReadString('\n')
 					fmt.Print("Penulis\t: ")
 					ID_Buku.Penulis, _ = in.ReadString('\n')
-					res2 := Buku.UpdateBuku(ID_Buku.IDuser, ID_Buku)
-					if res2.IDuser == 0 {
+					res2 := Buku.UpdateBuku(int(ID_Buku.ID), ID_Buku)
+					if res2.ID == 0 {
 						fmt.Println("Tidak ada buku yang diupdate")
 						break
 					}

@@ -37,8 +37,8 @@ func (b *Buku) DaftarBuku() []Book {
 	return ListBuku
 }
 
-func (b *Buku) UpdateBuku(IDuser int, newBuku Book) Book {
-	err := b.DB.Model(Book{}).Where("IDuser =? ", IDuser).Updates(newBuku)
+func (b *Buku) UpdateBuku(ID int, newBuku Book) Book {
+	err := b.DB.Model(Book{}).Where("ID_buku =? ", ID).Updates(newBuku)
 	if err.Error != nil {
 		log.Print(err)
 		return Book{}
