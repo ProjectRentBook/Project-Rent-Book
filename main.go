@@ -1,12 +1,12 @@
 package main
 
 import (
+	config "Project_Rent_Book/Config"
+	"Project_Rent_Book/entity"
 	"bufio"
 	"fmt"
 	"os"
-
-	config "Project_Rent_Book/Config"
-	"Project_Rent_Book/entity"
+	// "strings"
 )
 
 func main() {
@@ -17,11 +17,17 @@ func main() {
 
 	var input int = 0
 	for input != 11 {
-		fmt.Println("--Menu--")
-		fmt.Println("1. Sign Up")
-		fmt.Println("2. Login")
-		fmt.Println("3. List Buku")
-		fmt.Println("11. Exit")
+		fmt.Println("|________________________________________|")
+		fmt.Println("|         WELCOME TO OUR LIBRARY         |")
+		fmt.Println("|________________________________________|")
+		fmt.Println("|                                        |")
+		fmt.Println("|===============--MENU--=================|")
+		fmt.Println("|========================================|")
+		fmt.Println("|1. Sign Up                              |")
+		fmt.Println("|2. Login                                |")
+		fmt.Println("|3. List Buku                            |")
+		fmt.Println("|11.Exit                                 |")
+		fmt.Println("|________________________________________|")
 		fmt.Print("Pilih menu :")
 		fmt.Scanln(&input)
 
