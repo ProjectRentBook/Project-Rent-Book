@@ -11,6 +11,7 @@ type PinjamBuku struct {
 	gorm.Model
 	IDBook         int
 	IDuser         int
+	BukuSaya       string
 	TanggalPinjam  time.Time
 	TanggalKembali time.Time
 }
@@ -29,7 +30,7 @@ func (p *Pinjam) PinjamanBuku(BorrowBook PinjamBuku) PinjamBuku {
 }
 
 func (p *Pinjam) KembalikanBuku(IDBuku uint) bool {
-	postExc := p.DB.Where("ID_book = ?", IDBuku).Delete(&PinjamBuku{})
+	postExc := p.DB.Where("id_book = ?", IDBuku).Delete(&PinjamBuku{})
 	if err := postExc.Error; err != nil {
 		log.Print(err)
 		return false

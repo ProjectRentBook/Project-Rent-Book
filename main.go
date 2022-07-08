@@ -53,20 +53,10 @@ func main() {
 			var ListUser entity.User
 			fmt.Print("Email\t: ")
 			fmt.Scanln(&ListUser.Email)
-			fmt.Println(ListUser.Email)
 			fmt.Print("Password: ")
 			fmt.Scanln(&ListUser.Password)
-			fmt.Println(ListUser.Password)
 			res := SignUp.LoginUser(ListUser.Email, ListUser.Password)
 			Email := res.Email
-			fmt.Println(Email)
-			fmt.Println(res.Email)
-
-			// if res[0].ID < 1 {
-			// 	fmt.Println("Tidak bisa Login")
-			// 	break
-			// }
-			// fmt.Println("Berhasil Login")
 
 			var input2 int
 			for input2 != 8 {
@@ -85,28 +75,6 @@ func main() {
 				fmt.Scanln(&input2)
 				switch input2 {
 				case 1:
-					// var Update entity.User
-					// // fmt.Println("ID: ")
-					// // fmt.Scanln(&Update.ID)
-					// fmt.Print("Nama\t: ")
-					// in := bufio.NewReader(os.Stdin)
-					// Update.Nama, _ = in.ReadString('\n')
-					// fmt.Print("Email: ")
-					// fmt.Scanln(&Update.email)
-					// fmt.Print("Password: ")
-					// fmt.Scanln(&Update.Password)
-					// fmt.Print("Usia: ")
-					// fmt.Scanln(&Update.Umur)
-					// res2 := SignUp.UpdateUser(Email, Update)
-					// if res2.ID == 0 {
-					// 	fmt.Println("Tidak ada yang diupdate")
-					// 	break
-					// }
-					// fmt.Println("Berhasil Update Profil")
-					// ----------------------------------------------
-					// var Update entity.User
-					// fmt.Println("ID: ")
-					// fmt.Scanln(&Update.ID)
 					var namaUpdate, emailUpdate, passwordUpdate string
 					var umurUpdate string
 					fmt.Print("Nama\t: ")
@@ -148,6 +116,7 @@ func main() {
 						break
 					}
 					fmt.Println("berhasil input Buku")
+
 				case 4:
 					var ID_Buku entity.Book
 					fmt.Print("ID: ")
