@@ -1,28 +1,32 @@
 package main
 
 import (
+	config "Project_Rent_Book/Config"
+	"Project_Rent_Book/entity"
 	"bufio"
 	"fmt"
 	"os"
-
-	config "Project_Rent_Book/Config"
-	"Project_Rent_Book/entity"
+	// "strings"
 )
 
 func main() {
 	conn := config.InitDB()
-	SignUp := entity.SignUp{conn}
-	Buku := entity.Buku{conn}
-	Pinjam := entity.Pinjam{conn}
-
+	SignUp := entity.SignUp{DB: conn}
+	Buku := entity.Buku{DB: conn}
+	Pinjam := entity.Pinjam{DB: conn}
 	var input int = 0
 	for input != 11 {
-		fmt.Println("\t WELCOME TO OUR LIBRARY")
-		fmt.Println("-- Menu --")
-		fmt.Println("1. Sign Up")
-		fmt.Println("2. Login")
-		fmt.Println("3. List Buku")
-		fmt.Println("11. Exit")
+		fmt.Println("|________________________________________|")
+		fmt.Println("|         WELCOME TO OUR LIBRARY         |")
+		fmt.Println("|________________________________________|")
+		fmt.Println("|                                        |")
+		fmt.Println("|===============--MENU--=================|")
+		fmt.Println("|========================================|")
+		fmt.Println("|1. Sign Up                              |")
+		fmt.Println("|2. Login                                |")
+		fmt.Println("|3. List Buku                            |")
+		fmt.Println("|11.Exit                                 |")
+		fmt.Println("|________________________________________|")
 		fmt.Print("Pilih menu :")
 		fmt.Scanln(&input)
 
@@ -47,51 +51,79 @@ func main() {
 
 		case 2:
 			var ListUser entity.User
-
-			fmt.Print("Nama\t: ")
-			fmt.Scanln(&ListUser.Nama)
+			fmt.Print("Email\t: ")
+			fmt.Scanln(&ListUser.Email)
+			fmt.Println(ListUser.Email)
 			fmt.Print("Password: ")
 			fmt.Scanln(&ListUser.Password)
-			res := SignUp.LoginUser(ListUser.Nama, ListUser.Password)
-			if res[0].ID < 1 {
-				fmt.Println("Tidak bisa Login")
-				break
-			}
-			fmt.Println("Berhasil Login")
+			fmt.Println(ListUser.Password)
+			res := SignUp.LoginUser(ListUser.Email, ListUser.Password)
+			Email := res.Email
+			fmt.Println(Email)
+			fmt.Println(res.Email)
+
+			// if res[0].ID < 1 {
+			// 	fmt.Println("Tidak bisa Login")
+			// 	break
+			// }
+			// fmt.Println("Berhasil Login")
 
 			var input2 int
 			for input2 != 8 {
-
-				fmt.Println("1. Update Profile")
-				fmt.Println("2. Delete Account")
-				fmt.Println("3. Mendaftarkan Buku")
-				fmt.Println("4. Update Buku")
-				fmt.Println("5. Hapus Buku")
-				fmt.Println("6. Pinjam Buku")
-				fmt.Println("7. Kembalikan Buku")
-				fmt.Println("8. Exit")
+				fmt.Println("                          ")
+				fmt.Println("|________________________|")
+				fmt.Println("|1. Update Profile       |")
+				fmt.Println("|2. Delete Account       |")
+				fmt.Println("|3. Mendaftarkan Buku    |")
+				fmt.Println("|4. Update Buku          |")
+				fmt.Println("|5. Hapus Buku           |")
+				fmt.Println("|6. Pinjam Buku          |")
+				fmt.Println("|7. Kembalikan Buku      |")
+				fmt.Println("|8. Exit                 |")
+				fmt.Println("|________________________|")
 				fmt.Print("Pilih menu :")
 				fmt.Scanln(&input2)
 				switch input2 {
 				case 1:
-					var Update entity.User
-					fmt.Println("ID: ")
-					fmt.Scanln(&Update.ID)
+					// var Update entity.User
+					// // fmt.Println("ID: ")
+					// // fmt.Scanln(&Update.ID)
+					// fmt.Print("Nama\t: ")
+					// in := bufio.NewReader(os.Stdin)
+					// Update.Nama, _ = in.ReadString('\n')
+					// fmt.Print("Email: ")
+					// fmt.Scanln(&Update.email)
+					// fmt.Print("Password: ")
+					// fmt.Scanln(&Update.Password)
+					// fmt.Print("Usia: ")
+					// fmt.Scanln(&Update.Umur)
+					// res2 := SignUp.UpdateUser(Email, Update)
+					// if res2.ID == 0 {
+					// 	fmt.Println("Tidak ada yang diupdate")
+					// 	break
+					// }
+					// fmt.Println("Berhasil Update Profil")
+					// ----------------------------------------------
+					// var Update entity.User
+					// fmt.Println("ID: ")
+					// fmt.Scanln(&Update.ID)
+					var namaUpdate, emailUpdate, passwordUpdate string
+					var umurUpdate string
 					fmt.Print("Nama\t: ")
 					in := bufio.NewReader(os.Stdin)
-					Update.Nama, _ = in.ReadString('\n')
+					namaUpdate, _ = in.ReadString('\n')
 					fmt.Print("Email: ")
-					fmt.Scanln(&Update.Email)
+					fmt.Scanln(&emailUpdate)
 					fmt.Print("Password: ")
-					fmt.Scanln(&Update.Password)
+					fmt.Scanln(&passwordUpdate)
 					fmt.Print("Usia: ")
-					fmt.Scanln(&Update.Umur)
-					res2 := SignUp.UpdateUser(Update.ID, Update)
-					if res2.ID == 0 {
-						fmt.Println("Tidak ada yang diupdate")
+					fmt.Scanln(&umurUpdate)
+					res2 := SignUp.UpdateUser(Email, namaUpdate, emailUpdate, passwordUpdate, umurUpdate)
+					if res2 {
+						fmt.Print("berhasil update profil")
 						break
 					}
-					fmt.Println("Berhasil Update Profil")
+					fmt.Println("Gagal Update Profil")
 
 				case 2:
 					var ID uint
@@ -118,8 +150,8 @@ func main() {
 					fmt.Println("berhasil input Buku")
 				case 4:
 					var ID_Buku entity.Book
-					fmt.Print("IDuser: ")
-					fmt.Scanln(&ID_Buku.IDuser)
+					fmt.Print("ID: ")
+					fmt.Scanln(&ID_Buku.ID)
 					fmt.Print("Judul\t: ")
 					in := bufio.NewReader(os.Stdin)
 					ID_Buku.Judul, _ = in.ReadString('\n')
@@ -127,8 +159,8 @@ func main() {
 					ID_Buku.Genre, _ = in.ReadString('\n')
 					fmt.Print("Penulis\t: ")
 					ID_Buku.Penulis, _ = in.ReadString('\n')
-					res2 := Buku.UpdateBuku(ID_Buku.IDuser, ID_Buku)
-					if res2.IDuser == 0 {
+					res2 := Buku.UpdateBuku(int(ID_Buku.ID), ID_Buku)
+					if res2.ID == 0 {
 						fmt.Println("Tidak ada buku yang diupdate")
 						break
 					}
