@@ -38,7 +38,7 @@ func (b *Buku) DaftarBuku() []Book {
 }
 
 func (b *Buku) UpdateBuku(ID int, newBuku Book) Book {
-	err := b.DB.Model(Book{}).Where("ID_buku =? ", ID).Updates(newBuku)
+	err := b.DB.Model(Book{}).Where("ID =? ", ID).Updates(newBuku)
 	if err.Error != nil {
 		log.Print(err)
 		return Book{}

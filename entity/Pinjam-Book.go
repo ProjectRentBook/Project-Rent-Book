@@ -29,7 +29,7 @@ func (p *Pinjam) PinjamanBuku(BorrowBook PinjamBuku) PinjamBuku {
 }
 
 func (p *Pinjam) KembalikanBuku(IDBuku uint) bool {
-	postExc := p.DB.Where("ID_book = ?", IDBuku).Delete(&PinjamBuku{})
+	postExc := p.DB.Where("IDBook = ?", IDBuku).Delete(&PinjamBuku{})
 	if err := postExc.Error; err != nil {
 		log.Print(err)
 		return false
