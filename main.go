@@ -47,6 +47,7 @@ func main() {
 
 		case 2:
 			var ListUser entity.User
+
 			fmt.Print("Nama\t: ")
 			fmt.Scanln(&ListUser.Nama)
 			fmt.Print("Password: ")
